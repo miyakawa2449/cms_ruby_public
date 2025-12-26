@@ -1,0 +1,140 @@
+<div class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="max-w-6xl mx-auto">
+      <!-- ヘッダー -->
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Works</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          これまで手がけたプロジェクトの一部をご紹介します。要件定義から実装まで一貫して担当した実績です。
+        </p>
+      </div>
+      
+      <!-- プロジェクト一覧（記事ベース） -->
+      <% works_articles = Article.published.joins(:categories).where(categories: { slug: 'works' }).limit(6) %>
+      <% if works_articles.any? %>
+        <% grid_class = case works_articles.count
+                        when 1 then "flex justify-center"
+                        when 2 then "grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+                        else "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        end %>
+        <div class="<%= grid_class %> mb-16">
+          <% works_articles.each do |article| %>
+            <% card_class = works_articles.count == 1 ? "bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 max-w-md" : "bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1" %>
+            <div class="<%= card_class %>">
+              <% if article.thumbnail_image.attached? %>
+                <div class="h-48 bg-gradient-to-br from-blue-100 to-blue-200">
+                  <%= image_tag article.thumbnail_image, 
+                      alt: article.title, 
+                      class: "w-full h-full object-cover" %>
+                </div>
+              <% else %>
+                <div class="h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                  <svg class="w-16 h-16 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                  </svg>
+                </div>
+              <% end %>
+              
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-gray-900 mb-3">
+                  <%= article.title %>
+                </h3>
+                
+                <div class="text-gray-600 leading-relaxed mb-4">
+                  <%= truncate(strip_tags(safe_markdown(article.excerpt.presence || article.content)), length: 120) %>
+                </div>
+                
+                <!-- 技術スタック -->
+                <% if article.tech_stack.present? %>
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    <% article.tech_stack_list.each do |tech| %>
+                      <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                        <%= tech %>
+                      </span>
+                    <% end %>
+                  </div>
+                <% end %>
+                
+                <!-- 作品タイプ別のリンク -->
+                <div class="flex gap-2">
+                  <% if article.github_url.present? %>
+                    <a href="<%= article.github_url %>" target="_blank" rel="noopener" 
+                       class="text-gray-600 hover:text-blue-600 transition-colors">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                      </svg>
+                    </a>
+                  <% end %>
+                  
+                  <% if article.demo_url.present? %>
+                    <a href="<%= article.demo_url %>" target="_blank" rel="noopener" 
+                       class="text-gray-600 hover:text-green-600 transition-colors">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                    </a>
+                  <% end %>
+                  
+                  <%= link_to blog_article_path(article), 
+                      class: "text-blue-600 hover:text-blue-700 font-medium flex items-center ml-auto" do %>
+                    詳細を見る
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <!-- 記事がない場合のメッセージ -->
+        <div class="text-center py-16">
+          <div class="max-w-md mx-auto">
+            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">実績・作品を準備中</h3>
+            <p class="text-gray-600">
+              現在、ポートフォリオ作品を整理中です。近日中に公開予定です。
+            </p>
+          </div>
+        </div>
+      <% end %>
+      
+      <!-- 実績サマリー（一時的に非表示） -->
+      <!--
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+        <div class="text-center">
+          <div class="text-4xl font-bold text-blue-600 mb-2">20+</div>
+          <p class="text-gray-600">年の経験</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-green-600 mb-2">50+</div>
+          <p class="text-gray-600">プロジェクト</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-purple-600 mb-2">100%</div>
+          <p class="text-gray-600">成功率</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-orange-600 mb-2">3</div>
+          <p class="text-gray-600">フェーズキャリア</p>
+        </div>
+      </div>
+      
+      <!-- CTA -->
+      <div class="text-center">
+        <p class="text-lg text-gray-600 mb-6">
+          あなたのプロジェクトも同じ品質で実現できます
+        </p>
+      </div>
+      
+      <div class="text-center">
+        <a href="/#contact" class="bg-blue-600 text-white font-semibold py-4 px-8 rounded-lg hover:bg-blue-700 transition-colors">
+          プロジェクトの相談をする
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

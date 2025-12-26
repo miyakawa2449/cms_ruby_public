@@ -1,0 +1,493 @@
+<%= form_with(model: [:admin, @section, section_content], local: true) do |form| %>
+  <% if section_content.errors.any? %>
+    <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+      <h3 class="text-sm font-medium text-red-800 mb-2">エラーが発生しました:</h3>
+      <ul class="list-disc list-inside text-sm text-red-700">
+        <% section_content.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- コンテンツフィールド（セクションタイプに応じて動的に変更） -->
+  <div class="space-y-6">
+    <% case @section.name %>
+    <% when 'hero' %>
+      <!-- ヒーローセクション -->
+      <div>
+        <%= form.label :hero_image, "背景画像", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.file_field :hero_image, 
+            class: "mt-1 block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-md file:border-0
+            file:text-sm file:font-medium
+            file:bg-blue-50 file:text-blue-700
+            hover:file:bg-blue-100",
+            accept: "image/*" %>
+        <p class="mt-1 text-sm text-gray-500">推奨: 1920x1080px以上の背景画像</p>
+        
+        <% if section_content.persisted? && section_content.hero_image.attached? %>
+          <div class="mt-4">
+            <p class="text-sm font-medium text-gray-700 mb-2">現在の背景画像:</p>
+            <%= image_tag section_content.hero_image, 
+                class: "rounded-md shadow-sm max-w-full h-auto",
+                style: "max-height: 200px;" %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <%= form.label :main_message, "メインメッセージ", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :main_message, 
+            class: "form-input", 
+            rows: 4,
+            placeholder: "パソコン講師→SE/PM→AIエンジニア\n要件定義から実装まで\n一人でできる理由がある" %>
+        <p class="mt-1 text-sm text-gray-500">Markdown記法対応。改行は実際の改行で入力してください。</p>
+      </div>
+      
+      <div>
+        <%= form.label :sub_message, "サブメッセージ", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :sub_message, 
+            class: "form-input", 
+            rows: 2,
+            placeholder: "30年のキャリアで培った独自のスキルセット" %>
+      </div>
+      
+      <div>
+        <%= form.label :career_description, "キャリア説明", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :career_description, 
+            class: "form-input", 
+            rows: 3,
+            placeholder: "講師経験 × SE/PM 16年 × プログラミング × AI活用" %>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= form.label :cta_primary_text, "プライマリボタンテキスト", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :cta_primary_text, 
+              class: "form-input", 
+              placeholder: "💡 My Story を見る" %>
+        </div>
+        <div>
+          <%= form.label :cta_primary_url, "プライマリボタンURL", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :cta_primary_url, 
+              class: "form-input", 
+              placeholder: "/my-story" %>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= form.label :cta_secondary_text, "セカンダリボタンテキスト", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :cta_secondary_text, 
+              class: "form-input", 
+              placeholder: "お問い合わせ" %>
+        </div>
+        <div>
+          <%= form.label :cta_secondary_url, "セカンダリボタンURL", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_field :cta_secondary_url, 
+              class: "form-input", 
+              placeholder: "#contact" %>
+        </div>
+      </div>
+      
+    <% when 'about' %>
+      <!-- Aboutセクション -->
+      <div>
+        <%= form.label :profile_image, "プロフィール画像", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.file_field :profile_image, 
+            class: "mt-1 block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-md file:border-0
+            file:text-sm file:font-medium
+            file:bg-blue-50 file:text-blue-700
+            hover:file:bg-blue-100",
+            accept: "image/*" %>
+        <p class="mt-1 text-sm text-gray-500">推奨: 400x400px の正方形画像</p>
+        
+        <% if section_content.persisted? && section_content.profile_image.attached? %>
+          <div class="mt-4">
+            <p class="text-sm font-medium text-gray-700 mb-2">現在のプロフィール画像:</p>
+            <%= image_tag section_content.profile_image, 
+                class: "rounded-full shadow-sm",
+                style: "width: 100px; height: 100px; object-fit: cover;" %>
+          </div>
+        <% end %>
+      </div>
+      
+      <div>
+        <%= form.label :profile_text, "プロフィール", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :profile_text, 
+            class: "form-input", 
+            rows: 6,
+            placeholder: "システムエンジニア・プロジェクトマネージャとして20年以上の経験を持つ開発上流工程の専門家です。要件定義からプログラミングまで一貫して対応できる希少なスキルセットを保有しています。" %>
+        <p class="mt-1 text-sm text-gray-500">Markdown記法対応</p>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <%= form.label :frontend_skills, "Frontend", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_area :frontend_skills, 
+              class: "form-input", 
+              rows: 3,
+              placeholder: "Ruby/Rails, Python, JavaScript" %>
+          <p class="mt-1 text-sm text-gray-500">カンマ区切りで入力</p>
+        </div>
+        <div>
+          <%= form.label :backend_skills, "Backend", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.text_area :backend_skills, 
+              class: "form-input", 
+              rows: 3,
+              placeholder: "PostgreSQL, AWS, Docker" %>
+          <p class="mt-1 text-sm text-gray-500">カンマ区切りで入力</p>
+        </div>
+      </div>
+      
+      <div>
+        <%= form.label :core_skills, "Core Skills", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :core_skills, 
+            class: "form-input", 
+            rows: 5,
+            placeholder: "- 要件定義・設計\n- プロジェクト管理\n- 技術選定\n- チームリード" %>
+        <p class="mt-1 text-sm text-gray-500">Markdown記法対応（リスト形式推奨）</p>
+      </div>
+      
+      <div>
+        <%= form.label :experience_text, "Experience", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= form.text_area :experience_text, 
+            class: "form-input", 
+            rows: 4,
+            placeholder: "20+ years in IT industry\nLarge-scale system development" %>
+        <p class="mt-1 text-sm text-gray-500">Markdown記法対応</p>
+      </div>
+      
+    <% when 'services' %>
+      <!-- サービスセクション -->
+      <div>
+        <%= form.label :title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_field_tag "section_content[content][title]", 
+            section_content.content&.dig('title'), 
+            class: "form-input", 
+            placeholder: "サービス" %>
+      </div>
+      
+      <div>
+        <%= form.label :services_json, "サービスリスト (JSON形式)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <p class="text-sm text-gray-500 mb-2">
+          例: [{"title": "要件定義", "description": "お客様の要望を具体化", "icon": "clipboard-list"}]
+        </p>
+        <%= text_area_tag "section_content[content][services]", 
+            section_content.content&.dig('services')&.to_json || '[]', 
+            class: "form-input font-mono", 
+            rows: 10 %>
+      </div>
+      
+    <% when 'my-story' %>
+      <!-- My Storyセクション -->
+      <div class="space-y-6">
+        <!-- 背景画像 -->
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">背景画像</h3>
+          
+          <div>
+            <%= form.label :background_image, "背景画像", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.file_field :background_image, 
+                class: "mt-1 block w-full text-sm text-gray-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-md file:border-0
+                file:text-sm file:font-medium
+                file:bg-blue-50 file:text-blue-700
+                hover:file:bg-blue-100",
+                accept: "image/*" %>
+            <p class="mt-1 text-sm text-gray-500">推奨: 1920x1080px以上の背景画像（My Storyセクション用）</p>
+            
+            <% if section_content.persisted? && section_content.background_image.attached? %>
+              <div class="mt-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">現在の背景画像:</p>
+                <%= image_tag section_content.background_image, 
+                    class: "rounded-md shadow-sm max-w-full h-auto",
+                    style: "max-height: 200px;" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        
+        <!-- ヘッダー情報 -->
+        <div class="border-b border-gray-200 pb-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">ヘッダー情報</h3>
+          
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <%= form.label :badge_text, "バッジテキスト", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :badge_text, 
+                  class: "form-input", 
+                  placeholder: "💡 他にはない希少価値" %>
+            </div>
+            
+            <div>
+              <%= form.label :main_title, "メインタイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_area :main_title, 
+                  class: "form-input", 
+                  rows: 2,
+                  placeholder: "なぜ一人でできるのか？" %>
+            </div>
+            
+            <div>
+              <%= form.label :sub_title, "サブタイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_area :sub_title, 
+                  class: "form-input", 
+                  rows: 3,
+                  placeholder: "30年間で積み重ねた3つのフェーズが生み出す独自のスキルセット" %>
+            </div>
+          </div>
+        </div>
+        
+        <!-- フェーズ1 -->
+        <div class="border border-green-200 rounded-lg p-4 bg-green-50">
+          <h3 class="text-lg font-medium text-green-800 mb-4">フェーズ1（パソコン講師時代）</h3>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <%= form.label :phase1_year, "年", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :phase1_year, 
+                  class: "form-input", 
+                  placeholder: "1994" %>
+            </div>
+            <div>
+              <%= form.label :phase1_period, "期間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :phase1_period, 
+                  class: "form-input", 
+                  placeholder: "1994-2005" %>
+            </div>
+          </div>
+          
+          <div class="mt-4">
+            <%= form.label :phase1_title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_field :phase1_title, 
+                class: "form-input", 
+                placeholder: "パソコン講師" %>
+          </div>
+          
+          <div class="mt-4">
+            <%= form.label :phase1_description, "説明", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_area :phase1_description, 
+                class: "form-input", 
+                rows: 3,
+                placeholder: "PM基礎力形成" %>
+          </div>
+        </div>
+        
+        <!-- フェーズ2 -->
+        <div class="border border-blue-200 rounded-lg p-4 bg-blue-50">
+          <h3 class="text-lg font-medium text-blue-800 mb-4">フェーズ2（SE/PM時代）</h3>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <%= form.label :phase2_year, "年", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :phase2_year, 
+                  class: "form-input", 
+                  placeholder: "2005" %>
+            </div>
+            <div>
+              <%= form.label :phase2_period, "期間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :phase2_period, 
+                  class: "form-input", 
+                  placeholder: "2005-2021" %>
+            </div>
+          </div>
+          
+          <div class="mt-4">
+            <%= form.label :phase2_title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_field :phase2_title, 
+                class: "form-input", 
+                placeholder: "SE/PM" %>
+          </div>
+          
+          <div class="mt-4">
+            <%= form.label :phase2_description, "説明", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_area :phase2_description, 
+                class: "form-input", 
+                rows: 3,
+                placeholder: "上流工程専門家" %>
+          </div>
+        </div>
+        
+        <!-- フェーズ3 -->
+        <div class="border border-purple-200 rounded-lg p-4 bg-purple-50">
+          <h3 class="text-lg font-medium text-purple-800 mb-4">フェーズ3（AIエンジニア時代）</h3>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <%= form.label :phase3_year, "年", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :phase3_year, 
+                  class: "form-input", 
+                  placeholder: "2022" %>
+            </div>
+            <div>
+              <%= form.label :phase3_period, "期間", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :phase3_period, 
+                  class: "form-input", 
+                  placeholder: "2022-現在" %>
+            </div>
+          </div>
+          
+          <div class="mt-4">
+            <%= form.label :phase3_title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_field :phase3_title, 
+                class: "form-input", 
+                placeholder: "AIエンジニア" %>
+          </div>
+          
+          <div class="mt-4">
+            <%= form.label :phase3_description, "説明", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= form.text_area :phase3_description, 
+                class: "form-input", 
+                rows: 3,
+                placeholder: "全スキル統合" %>
+          </div>
+        </div>
+        
+        <!-- CTA情報 -->
+        <div class="border-t border-gray-200 pt-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">CTA情報</h3>
+          
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <%= form.label :cta_button_text, "ボタンテキスト", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :cta_button_text, 
+                  class: "form-input", 
+                  placeholder: "🚀 詳細なストーリーを見る" %>
+            </div>
+            
+            <div>
+              <%= form.label :cta_description, "説明文", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_area :cta_description, 
+                  class: "form-input", 
+                  rows: 2,
+                  placeholder: "このキャリアパスがなぜ希少価値があるのか詳しく解説" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <% when 'works' %>
+      <!-- 実績セクション -->
+      <div>
+        <%= form.label :title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_field_tag "section_content[content][title]", 
+            section_content.content&.dig('title'), 
+            class: "form-input", 
+            placeholder: "実績" %>
+      </div>
+      
+      <div>
+        <%= form.label :works_json, "実績リスト (JSON形式)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <p class="text-sm text-gray-500 mb-2">
+          例: [{"title": "ECサイト構築", "description": "大規模ECサイトの要件定義から実装まで", "tech": ["Rails", "React"], "url": "https://example.com"}]
+        </p>
+        <%= text_area_tag "section_content[content][works]", 
+            section_content.content&.dig('works')&.to_json || '[]', 
+            class: "form-input font-mono", 
+            rows: 10 %>
+      </div>
+      
+    <% when 'blog' %>
+      <!-- ブログセクション -->
+      <div>
+        <%= form.label :title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_field_tag "section_content[content][title]", 
+            section_content.content&.dig('title'), 
+            class: "form-input", 
+            placeholder: "ブログ" %>
+      </div>
+      
+      <div>
+        <%= form.label :description, "説明文", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_area_tag "section_content[content][description]", 
+            section_content.content&.dig('description'), 
+            class: "form-input", 
+            rows: 3,
+            placeholder: "技術情報やプロジェクトの進捗を発信しています" %>
+      </div>
+      
+      <div>
+        <%= form.label :posts_count, "表示記事数", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= number_field_tag "section_content[content][posts_count]", 
+            section_content.content&.dig('posts_count') || 3, 
+            class: "form-input", 
+            min: 1, max: 10 %>
+      </div>
+      
+    <% when 'contact' %>
+      <!-- お問い合わせセクション -->
+      <div>
+        <%= form.label :title, "タイトル", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_field_tag "section_content[content][title]", 
+            section_content.content&.dig('title'), 
+            class: "form-input", 
+            placeholder: "お問い合わせ" %>
+      </div>
+      
+      <div>
+        <%= form.label :description, "説明文", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_area_tag "section_content[content][description]", 
+            section_content.content&.dig('description'), 
+            class: "form-input", 
+            rows: 3,
+            placeholder: "お気軽にお問い合わせください" %>
+      </div>
+      
+      <div>
+        <%= form.label :email, "メールアドレス", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= email_field_tag "section_content[content][email]", 
+            section_content.content&.dig('email'), 
+            class: "form-input", 
+            placeholder: "contact@example.com" %>
+      </div>
+      
+      <div>
+        <%= form.label :social_links_json, "ソーシャルリンク (JSON形式)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <p class="text-sm text-gray-500 mb-2">
+          例: [{"platform": "Twitter", "url": "https://twitter.com/example", "icon": "twitter"}]
+        </p>
+        <%= text_area_tag "section_content[content][social_links]", 
+            section_content.content&.dig('social_links')&.to_json || '[]', 
+            class: "form-input font-mono", 
+            rows: 5 %>
+      </div>
+      
+    <% else %>
+      <!-- 汎用フィールド -->
+      <div>
+        <%= form.label :content_json, "コンテンツ (JSON形式)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= text_area_tag "section_content[content]", 
+            section_content.content&.to_json || '{}', 
+            class: "form-input font-mono", 
+            rows: 15 %>
+      </div>
+    <% end %>
+    
+    <!-- 公開設定 -->
+    <div class="border-t border-gray-200 pt-6">
+      <div class="flex items-center">
+        <%= form.check_box :is_active, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <%= form.label :is_active, "このコンテンツを公開する", class: "ml-2 block text-sm text-gray-900" %>
+      </div>
+      <p class="mt-1 text-sm text-gray-500">
+        チェックすると、このバージョンが公開されます（既存の公開バージョンは非公開になります）
+      </p>
+    </div>
+  </div>
+  
+  <!-- アクションボタン -->
+  <div class="mt-6 flex items-center justify-between">
+    <div>
+      <%= link_to "キャンセル", admin_section_path(@section), 
+                  class: "text-gray-700 hover:text-gray-900" %>
+    </div>
+    <div class="flex space-x-3">
+      <%= form.submit "保存", class: "btn-primary" %>
+    </div>
+  </div>
+<% end %>

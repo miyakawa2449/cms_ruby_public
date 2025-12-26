@@ -1,0 +1,376 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  :root {
+    --color-primary: #1E40AF;
+    --color-secondary: #334155;
+    --color-accent: #FCD34D;
+    --spacing-section: 5rem;
+    --spacing-content: 3rem;
+  }
+
+  body {
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    color: #1F2937;
+  }
+
+  /* Blog Article Styles - prose class overrides */
+  .prose h1,
+  .article-content h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #111827;
+    line-height: 1.3;
+  }
+
+  .prose h2,
+  .article-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #111827;
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    line-height: 1.4;
+  }
+
+  .prose h3,
+  .article-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+    line-height: 1.5;
+  }
+
+  .prose h4,
+  .article-content h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+
+  .prose p,
+  .article-content p {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.8;
+    color: #374151;
+    font-size: 1rem;
+  }
+
+  .prose ul,
+  .prose ol,
+  .article-content ul,
+  .article-content ol {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    margin-left: 1.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .prose li,
+  .article-content li {
+    margin-bottom: 0.5rem;
+    color: #374151;
+    line-height: 1.7;
+  }
+
+  .prose ul > li {
+    list-style-type: disc;
+  }
+
+  .prose ol > li {
+    list-style-type: decimal;
+  }
+
+  .prose code,
+  .article-content code {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #dc2626;
+  }
+
+  .prose pre,
+  .article-content pre {
+    background-color: #1f2937;
+    color: #e5e7eb;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .prose pre code,
+  .article-content pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  .prose blockquote,
+  .article-content blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+    color: #4b5563;
+    background-color: #f8fafc;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  .prose img,
+  .article-content img {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .prose hr {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-color: #e5e7eb;
+  }
+
+  .prose strong {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .prose em {
+    font-style: italic;
+  }
+
+  /* リンクスタイル */
+  .article-content a,
+  .prose a {
+    color: #2563eb;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .article-content a:hover,
+  .prose a:hover {
+    color: #1d4ed8;
+    text-decoration-color: #1d4ed8;
+  }
+
+  .article-content a:visited,
+  .prose a:visited {
+    color: #7c3aed;
+  }
+
+  /* 外部リンクアイコン */
+  .article-content a[href^="http"]:not([href*="miyakawa.codes"]):not(.ogp-card)::after,
+  .prose a[href^="http"]:not([href*="miyakawa.codes"]):not(.ogp-card)::after {
+    content: " ↗";
+    font-size: 0.75em;
+    vertical-align: super;
+  }
+
+  /* 記事内画像のスタイリング（figureタグ付き） */
+  .article-content .article-image,
+  .prose .article-image {
+    margin: 2rem auto;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .article-content .article-image img,
+  .prose .article-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin: 0 auto;
+  }
+
+  .article-content .article-image figcaption,
+  .prose .article-image figcaption {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-style: italic;
+    line-height: 1.5;
+    text-align: center;
+    background-color: #f9fafb;
+    border-left: 3px solid #3b82f6;
+    border-radius: 0.25rem;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 640px) {
+    .article-content .article-image,
+    .prose .article-image {
+      margin: 1.5rem auto;
+    }
+
+    .article-content .article-image figcaption,
+    .prose .article-image figcaption {
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+@layer components {
+  /* Custom styles from rails_templates */
+  .hero-bg {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .timeline-line {
+    background: linear-gradient(90deg, #1e40af, #059669, #1e293b);
+    height: 4px;
+  }
+
+  .chapter-quote {
+    border-left: 4px solid #1e40af;
+    font-style: italic;
+  }
+
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+  }
+
+  .scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .section-spacing {
+    scroll-margin-top: 80px;
+  }
+
+  /* OGPカードスタイル - インラインスタイルで実装（proseクラスの影響回避のため） */
+  .ogp-card-wrapper {
+    /* スタイルはインラインで定義 */
+  }
+
+  /* line-clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .toc {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #1e40af, #334155);
+    z-index: 100;
+    transition: width 0.3s ease;
+  }
+
+  .floating-share {
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+  }
+
+  @media (max-width: 768px) {
+    .floating-share {
+      position: static;
+      transform: none;
+      margin: 2rem 0;
+    }
+  }
+
+  .category-hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%);
+  }
+
+  .article-card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+  }
+
+  .category-card:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
+  }
+
+  .filter-button.active {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+    color: white;
+  }
+
+  .search-container {
+    z-index: 60;
+  }
+
+  .search-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Original form styles for admin */
+@layer components {
+  .form-input {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm;
+  }
+  
+  .form-select {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm;
+  }
+  
+  .form-checkbox {
+    @apply focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+  }
+}
