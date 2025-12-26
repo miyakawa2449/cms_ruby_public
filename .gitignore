@@ -43,8 +43,9 @@
 # Ignore all daily reports (personal work logs)
 /reports/
 
-# Ignore development documentation and planning files
-/docs/
+# Ignore development documentation and planning files (except specifications)
+/docs/*
+!/docs/specifications/
 
 # Ignore development and test backup files
 *.backup
