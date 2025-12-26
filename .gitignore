@@ -84,11 +84,10 @@ Gemfile.lock.*.backup
 # Ignore Kamal secrets
 /.kamal/secrets
 
-# Ignore AI assistant configs
+# Ignore AI assistant configs (keep KIRO.md for reference)
 /.claude/
 /.mcp.json
 CLAUDE.md
-KIRO.md
 
 # Ignore local development notes
 *.local.md
