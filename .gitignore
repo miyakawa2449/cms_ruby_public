@@ -47,6 +47,7 @@
 /docs/*
 !/docs/specifications/
 !/docs/development/
+!/docs/handoff/
 
 # Ignore development and test backup files
 *.backup
